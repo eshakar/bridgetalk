@@ -27,14 +27,16 @@ settings = get_settings()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-    # One shared client per process; startup succeeds even if MongoDB is down.
-    app.state.mongo = MongoState(settings)
+    # Connect eagerly when the server runs lifespan events; startup succeeds even if MongoDB is down.
     await app.state.mongo.connect(force=True)
     yield
     await app.state.mongo.close()
 
 
 app = FastAPI(title="BridgeTalk API", version=VERSION, lifespan=lifespan)
+# One shared client per process. Created here rather than in lifespan so serverless
+# runtimes that skip lifespan events still connect lazily on the first request.
+app.state.mongo = MongoState(settings)
 
 app.add_middleware(
     CORSMiddleware,

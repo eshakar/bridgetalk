@@ -34,7 +34,7 @@ export function SettingsPanels() {
       >
         <div className="divide-y divide-ink-700/60">
           <Row label="API URL">
-            <code className="rounded bg-ink-900 px-2 py-0.5 font-mono text-xs text-ink-200">{API_URL}</code>
+            <code className="rounded bg-ink-900 px-2 py-0.5 font-mono text-xs text-ink-200">{API_URL || "Same origin (/api)"}</code>
           </Row>
           <Row label="Status">
             {apiStatus === "checking" ? (

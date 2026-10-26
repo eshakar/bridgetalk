@@ -17,6 +17,7 @@ import type {
 import { analyzeLocally, answerLocally } from "@/lib/local-intelligence";
 import { SAMPLE_MEETING } from "@/lib/sample-meeting";
 
+// "/" (as on Vercel, where the API shares the site's domain) means same-origin relative URLs.
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000").replace(/\/+$/, "");
 
 const TIMEOUT_MS = 25_000;
